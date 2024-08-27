@@ -17,7 +17,7 @@ def affineCaesarEncryption(message, key, alphabet):
     multiplicativeKey, additiveKey = key
 
     if gcd(multiplicativeKey, alphabetSize) != 1:
-        return "Error: The multiplicative key and the alphabet size must be coprime."
+        return "The multiplicative key and the alphabet size are not coprime."
 
     encryptedMessage = ""
     for character in message:
@@ -37,13 +37,13 @@ def affineCaesarDecryption(ciphertext, key, alphabet):
     multiplicativeKey, additiveKey = key
 
     if gcd(multiplicativeKey, alphabetSize) != 1:
-        return "Error: The multiplicative key and the alphabet size must be coprime."
+        return "The multiplicative key and the alphabet size are not coprime."
 
     decryptedMessage = ""
     multiplicativeInverse = modularInverse(multiplicativeKey, alphabetSize)
 
     if multiplicativeInverse == -1:
-        return "Error: No modular inverse exists for the given key and alphabet size."
+        return "No modular inverse exists for the given key and alphabet size"
 
     for character in ciphertext:
         if character in alphabet:
