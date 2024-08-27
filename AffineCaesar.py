@@ -1,10 +1,31 @@
-import tkinter as tk
-from tkinter import ttk
+import math
 
 
-def affineCipherEncryption(message, key, alphabet):
+def gcd(a, b):
+    return math.gcd(a, b)
+
+
+def modularInverse(a, m):
+    originalModulus = m
+    x, y = 0, 1
+
+    while m > 0:
+        quotient = a // m
+        a, m = m, a % m
+        x, y = y, x - quotient * y
+
+    if x < 0:
+        x += originalModulus
+
+    return x
+
+
+def affineCaesarEncryption(message, key, alphabet):
     alphabetSize = len(alphabet)
     multiplicativeKey, additiveKey = key
+
+    if gcd(multiplicativeKey, alphabetSize) != 1:
+        return "MultiplicativeKey and alphabetSize are not coprime"
 
     encryptedMessage = ""
 
@@ -21,16 +42,12 @@ def affineCipherEncryption(message, key, alphabet):
     return encryptedMessage
 
 
-def modularInverse(alphabetSize, module):
-    for x in range(1, module):
-        if (alphabetSize * x) % module == 1:
-            return x
-    return -1
-
-
-def affineCipherDecryption(ciphertext, key, alphabet):
+def affineCaesarDecryption(ciphertext, key, alphabet):
     alphabetSize = len(alphabet)
     multiplicativeKey, additiveKey = key
+
+    if gcd(multiplicativeKey, alphabetSize) != 1:
+        return "MultiplicativeKey and alphabetSize are not coprime"
 
     decryptedMessage = ""
     multiplicativeInverse = modularInverse(multiplicativeKey, alphabetSize)
@@ -50,7 +67,7 @@ def affineCipherDecryption(ciphertext, key, alphabet):
 
 def menu():
     while True:
-        print("         ----- Affine Cipher ----- ")
+        print("         ----- Affine Caesar Cipher ----- ")
         print("             [1] Encode")
         print("             [2] Decode")
         print("             [3] Exit")
@@ -66,17 +83,17 @@ def menu():
             additiveKey = int(input("          Additive Key         : "))
 
             key = (multiplicativeKey, additiveKey)
-            encryptedMessage = affineCipherEncryption(message, key, alphabet)
+            encryptedMessage = affineCaesarEncryption(message, key, alphabet)
 
             print(f"""
                          ---------------------------------------------------------------
-                                                Encode Results                                  
+                                                Encode Results
                          ---------------------------------------------------------------
-                                Message              : {message}                                      
-                                Alphabet             : {alphabet}               
-                                Multiplicative Key   : {multiplicativeKey}                                  
-                                Additive Key         : {additiveKey}                         
-                                Encrypted Message    : {encryptedMessage}                              
+                                Message              : {message}
+                                Alphabet             : {alphabet}
+                                Multiplicative Key   : {multiplicativeKey}
+                                Additive Key         : {additiveKey}
+                                Encrypted Message    : {encryptedMessage}
                          ---------------------------------------------------------------
                       """)
 
@@ -88,14 +105,14 @@ def menu():
             additiveKey = int(input("          Additive Key         : "))
 
             key = (multiplicativeKey, additiveKey)
-            decrypted_message = affineCipherDecryption(ciphertext, key, alphabet)
+            decrypted_message = affineCaesarDecryption(ciphertext, key, alphabet)
 
             print(f"""
                          ---------------------------------------------------------------
-                                                Decode Results    
+                                                Decode Results
                          ---------------------------------------------------------------
-                                Ciphertext           : {ciphertext}  
-                                Alphabet             : {alphabet} 
+                                Ciphertext           : {ciphertext}
+                                Alphabet             : {alphabet}
                                 Multiplicative Key   : {multiplicativeKey}
                                 Additive Key         : {additiveKey}
                                 Decrypted Message    : {decrypted_message}
@@ -111,3 +128,4 @@ def menu():
 
 
 menu()
+
