@@ -57,6 +57,14 @@ def affineCaesarDecryption(ciphertext, key, alphabet):
     return decryptedMessage
 
 
+def inputValidator(var):
+    while (True):
+        try:
+            return int(input(var))
+        except:
+            print("     Invalid input, only numbers...\n")
+
+
 def menu():
     while True:
         print("         ----- Affine Caesar Cipher ----- ")
@@ -75,9 +83,10 @@ def menu():
             print("             --------- Encode -------- ")
             message = input("              Message              : ")
             alphabet = input("              Alphabet             : ")
-            multiplicativeKey = int(
-                input("              Multiplicative Key   : "))
-            additiveKey = int(input("              Additive Key         : "))
+            multiplicativeKey = inputValidator(
+                "              Multiplicative Key   : ")
+            additiveKey = inputValidator(
+                "              Additive Key         : ")
 
             key = (multiplicativeKey, additiveKey)
             encryptedMessage = affineCaesarEncryption(message, key, alphabet)
@@ -98,9 +107,10 @@ def menu():
             print("             --------- Decode -------- ")
             ciphertext = input("              Ciphertext           : ")
             alphabet = input("              Alphabet             : ")
-            multiplicativeKey = int(
-                input("              Multiplicative Key   : "))
-            additiveKey = int(input("              Additive Key         : "))
+            multiplicativeKey = inputValidator(
+                "              Multiplicative Key   : ")
+            additiveKey = inputValidator(
+                "              Additive Key         : ")
 
             key = (multiplicativeKey, additiveKey)
             decrypted_message = affineCaesarDecryption(
